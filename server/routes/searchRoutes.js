@@ -1,10 +1,10 @@
 import express from "express";
 import { 
-    searchCities,
+    getDestinationData,
 } from "../controllers/searchController.js";
 
 const router = express.Router();
 
-router.get("/", searchCities);
+router.get("/", getDestinationData);
 
 export default router;
