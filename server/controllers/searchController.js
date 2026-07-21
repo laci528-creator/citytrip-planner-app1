@@ -1,7 +1,9 @@
 import { getCity } from "../services/cityService.js";
-import { getExchangeRate } from "../services/currencyService.js";
 import { getWeather } from "../services/weatherService.js";
-import { getCurrencyByCountryCode } from "../utils/countryCurrencies.js";
+import {
+  getNearbyAttractions,
+} from "../services/attractionsService.js";
+
 
 export async function getDestinationData(req, res) {
   const query = req.query.query;
@@ -21,14 +23,14 @@ export async function getDestinationData(req, res) {
       });
     }
 
-    const weather = await getWeather(
-      city.latitude,
-      city.longitude
-    );
+    const [weather, attraction] = await Promise.all ([getWeather(city.latitude,city.longitude), 
+      getNearbyAttractions(city.latitude, city.longitude),
+    ]);
 
     return res.status(200).json({
       city,
       weather,
+      attraction,
     });
 
   } catch (error) {

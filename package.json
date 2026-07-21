@@ -6,7 +6,8 @@
   "scripts": {
     "backend": "npm run dev --prefix server",
     "frontend": "npm run dev --prefix client",
-    "dev": "concurrently \"npm run backend\" \"npm run frontend\""
+    "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
+    "lint": "npm run lint --prefix client"
   },
   "keywords": [],
   "author": "Laszlo Haraszti",

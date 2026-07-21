@@ -4,7 +4,6 @@ import { searchCity } from "../services/api";
 
 function Home() {
   const [searchTerm, setSearchTerm] = useState("");
-  const [lastSearchTerm, setLastSearchTerm] = useState("");
   const [city, setCity] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -27,7 +26,6 @@ function Home() {
       const cityData = await searchCity(trimmedSearchTerm);
 
       setCity(cityData);
-      setLastSearchTerm(trimmedSearchTerm);
     } catch (error) {
       setErrorMessage(error.message);
     } finally {
@@ -56,6 +54,7 @@ function Home() {
                 <CitySection city={city.city} />
 
                 <WeatherSection weather={city.weather} />
+                <AttractionSection attraction={city.attraction} />
                 </div>
             )}
             </main>
@@ -70,7 +69,7 @@ function CitySection({ city }) {
         {city.name}, {city.country}
       </h2>
 
-      {city.population !== null && (
+      {city.population != null && (
         <p>
           <strong>Population:</strong>{" "}
           {city.population.toLocaleString()}
@@ -189,67 +188,55 @@ function getWeatherDescription(code) {
   return weatherCodes[code] ?? "Unknown conditions";
 }
 
+function AttractionSection({ attraction }) {
+    if (!attraction) {
+    return null;
+  }
 
-export default Home;
+return (
+    <section className="result-card">
+      <h2>Nearby attractions</h2>
 
+      <div className="forecast-grid">
+        {attraction.map((attr) => (
+          <article className="forecast-card" key={attr.id}>
+            <h3>{attr.name}</h3>
 
+            <p>
+              <strong>Distance:</strong> {formatDistance(attr.distance)}
+            </p>
 
+            <h3>Category:</h3>
+            <ul>
+            {attr.categories.map((category) => (
+              <li key={`${attr.id}-${category}`}>
+                {formatCategory(category)}
+              </li>
 
-
-
-
-
-
-
- /*city && (
-        <section>
-          <h2>
-            {city.city.name}, {city.city.country}
-          </h2>
-          <p>Country Code: {city.city.countryCode}</p>
-            <p>Timezone: {city.weather.timezone}</p>
-            <p>Current time: {city.weather.current.time}</p>
-            <p>Temperature: {city.weather.current.temperature}</p>
-            <p>Apparent Temperature: {city.weather.current.apparentTemperature}</p>
-            <p>Windspeed: {city.weather.current.windSpeed}</p>
-        </section>
-      )}
-
-      {weather.daily?.length > 0 && (
-        <>
-          <h3>7-day forecast</h3>
-
-          <div className="forecast-grid">
-            {weather.daily.map((day) => (
-              <article className="forecast-card" key={day.date}>
-                <h4>{formatDate(day.date)}</h4>
-
-                <p>
-                  {getWeatherDescription(day.weatherCode)}
-                </p>
-
-                <p>
-                  Max: {day.temperatureMax} °C
-                </p>
-
-                <p>
-                  Min: {day.temperatureMin} °C
-                </p>
-
-                <p>
-                  Rain: {day.precipitationProbability ?? 0}%
-                </p>
-              </article>
             ))}
-          </div>
-        </>
-      )}
+            </ul>
 
-
-
-      {lastSearchTerm && <p>Last search: {lastSearchTerm}</p>}
-    </main>
+          </article>
+        ))}
+      </div>
+    </section>
   );
 }
 
-export default Home  */
+function formatDistance(distance) {
+  if (distance >= 1000) {
+    return `${(distance / 1000).toFixed(1)} km`;
+  }
+
+  return `${Math.round(distance)} m`;
+}
+
+
+function formatCategory(category) {
+  return category
+    .replaceAll("_", " ")
+    .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+
+export default Home;
