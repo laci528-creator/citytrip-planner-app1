@@ -2,6 +2,23 @@ import { useState } from "react";
 import SearchBar from "../components/SearchBar";
 import { searchCity } from "../services/api";
 
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import "leaflet/dist/leaflet.css";
+import L from "leaflet";
+
+// Leaflet marker ikon javítása (Vite / React alatt)
+import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
+import markerIcon from "leaflet/dist/images/marker-icon.png";
+import markerShadow from "leaflet/dist/images/marker-shadow.png";
+
+delete L.Icon.Default.prototype._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconUrl: markerIcon,
+  iconRetinaUrl: markerIcon2x,
+  shadowUrl: markerShadow,
+});
+
+
 function Home() {
   const [searchTerm, setSearchTerm] = useState("");
   const [city, setCity] = useState(null);
@@ -51,7 +68,7 @@ function Home() {
 
         {city && (
                 <div className="destination-results">
-                <CitySection city={city.city} />
+                <CitySection city={city.city} attractions={city.attraction} />
 
                 <WeatherSection weather={city.weather} />
                 <AttractionSection attraction={city.attraction} />
@@ -61,8 +78,8 @@ function Home() {
         );
     }
         
-
-function CitySection({ city }) {
+function CitySection({ city, attractions }) {
+  const position = [city.latitude, city.longitude];
   return (
     <section className="result-card">
       <h2>
@@ -83,6 +100,50 @@ function CitySection({ city }) {
       <p>
         <strong>Longitude:</strong> {city.longitude}
       </p>
+      <div
+        style={{
+          height: "400px",
+          width: "100%",
+          marginTop: "15px",
+          borderRadius: "8px",
+          overflow: "hidden",
+        }}
+      >
+        <MapContainer
+          key={`${city.latitude}-${city.longitude}`}
+          center={position}
+          zoom={12}
+          scrollWheelZoom={false}
+          style={{ height: "100%", width: "100%" }}
+        >
+          <TileLayer
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          />
+          <Marker position={position}>
+            <Popup>
+              {city.name}, {city.country}
+            </Popup>
+          </Marker>
+          {attractions?.map((attraction) => (
+          <Marker
+            key={attraction.id}
+            position={[
+              attraction.latitude,
+              attraction.longitude,
+            ]}
+          >
+            <Popup>
+              <strong>{attraction.name}</strong>
+              <br />
+              Distance: {formatDistance(attraction.distance)}
+            </Popup>
+          </Marker>
+        ))}
+        </MapContainer>
+      </div>
+
+
     </section>
   );
 }
@@ -205,16 +266,19 @@ return (
             <p>
               <strong>Distance:</strong> {formatDistance(attr.distance)}
             </p>
+              {attr.categories?.length > 0 && (
+                <>
+                  <h4>Categories:</h4>
 
-            <h3>Category:</h3>
-            <ul>
-            {attr.categories.map((category) => (
-              <li key={`${attr.id}-${category}`}>
-                {formatCategory(category)}
-              </li>
-
-            ))}
-            </ul>
+                  <ul>
+                    {attr.categories.map((category) => (
+                      <li key={`${attr.id}-${category}`}>
+                        {formatCategory(category)}
+                      </li>
+                    ))}
+                  </ul>
+                </>
+              )}
 
           </article>
         ))}
