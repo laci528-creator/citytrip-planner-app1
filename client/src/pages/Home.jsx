@@ -6,7 +6,6 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 
-// Leaflet marker ikon javítása (Vite / React alatt)
 import markerIcon2x from "leaflet/dist/images/marker-icon-2x.png";
 import markerIcon from "leaflet/dist/images/marker-icon.png";
 import markerShadow from "leaflet/dist/images/marker-shadow.png";
@@ -52,15 +51,17 @@ function Home() {
 
 
   return (
-    <main>
+    <main className="main-container">
+      <div className="hero-header">
       <h1>Urlaub Planer</h1>
       <p>Search for your holiday destination.</p>
-
+      
       <SearchBar
         searchTerm={searchTerm}
         setSearchTerm={setSearchTerm}
         onSearch={handleSearch}
       />
+      </div>
 
       {isLoading && <p>Searching...</p>}
 
@@ -258,9 +259,9 @@ return (
     <section className="result-card">
       <h2>Nearby attractions</h2>
 
-      <div className="forecast-grid">
+      <div className="attraction-grid">
         {attraction.map((attr) => (
-          <article className="forecast-card" key={attr.id}>
+          <article className="attraction-card" key={attr.id}>
             <h3>{attr.name}</h3>
 
             <p>
@@ -272,7 +273,7 @@ return (
 
                   <ul>
                     {attr.categories.map((category) => (
-                      <li key={`${attr.id}-${category}`}>
+                      <li className="category-list" key={`${attr.id}-${category}`}>
                         {formatCategory(category)}
                       </li>
                     ))}

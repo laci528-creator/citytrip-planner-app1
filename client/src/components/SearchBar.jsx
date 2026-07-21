@@ -1,13 +1,20 @@
 function SearchBar({ searchTerm, setSearchTerm, onSearch }) { 
     return ( 
-        <form onSubmit={onSearch}> 
-            <input 
-                type="text" 
-                placeholder="Search for roman coin, greek vase..." 
-                value={searchTerm} 
-                onChange={(event) => setSearchTerm(event.target.value)} 
-                /> 
-                <button type="submit">Search</button> </form> 
+        <form className="search-form" onSubmit={onSearch}> 
+                <div className="input-wrapper">
+                    <span className="search-icon">🔍</span>
+                    <input
+                        type="text"
+                        className="search-input"
+                        placeholder="Search destination" 
+                        value={searchTerm} 
+                        onChange={(event) => setSearchTerm(event.target.value)} 
+                        />
+                </div> 
+                <button type="submit" className="search-button">
+                    Search
+                </button>
+        </form> 
     );
 } 
                 
