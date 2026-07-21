@@ -69,7 +69,7 @@ function Home() {
 
         {city && (
                 <div className="destination-results">
-                <CitySection city={city.city} attractions={city.attraction} />
+                <CitySection city={city.city} attractions={city.attraction} image={city.image} />
 
                 <WeatherSection weather={city.weather} />
                 <AttractionSection attraction={city.attraction} />
@@ -79,11 +79,39 @@ function Home() {
         );
     }
         
-function CitySection({ city, attractions }) {
+function CitySection({ city, attractions, image }) {
   const position = [city.latitude, city.longitude];
   return (
-    <section className="result-card">
-      <h2>
+    <section className="result-card" style={{ padding: 0, overflow: "hidden" }}>
+      {/* 1. KÉP SZEKCIÓ (Borítókép) */}
+      {image && (
+        <div style={{ position: "relative", width: "100%", height: "350px" }}>
+          <img
+            src={image.imageUrl}
+            alt={image.altDescription || `Photo of ${city.name}`}
+            style={{
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+          {/* Fotós kredit megjelenítése az Unsplash szabályzata miatt */}
+          <div style={{
+            position: "absolute",
+            bottom: "8px",
+            right: "8px",
+            backgroundColor: "rgba(0, 0, 0, 0.6)",
+            color: "white",
+            padding: "4px 8px",
+            borderRadius: "4px",
+            fontSize: "0.75rem",
+          }}>
+            Photo by {image.photographerName} on Unsplash
+          </div>
+        </div>
+      )}
+      <div style={{ padding: "24px" }}>
+      <h2 style={{ marginTop: 0 }}>
         {city.name}, {city.country}
       </h2>
 
@@ -142,6 +170,7 @@ function CitySection({ city, attractions }) {
           </Marker>
         ))}
         </MapContainer>
+      </div>
       </div>
 
 

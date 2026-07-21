@@ -3,6 +3,7 @@ import { getWeather } from "../services/weatherService.js";
 import {
   getNearbyAttractions,
 } from "../services/attractionsService.js";
+import { getCityImage } from "../services/imageService.js";
 
 
 export async function getDestinationData(req, res) {
@@ -23,14 +24,17 @@ export async function getDestinationData(req, res) {
       });
     }
 
-    const [weather, attraction] = await Promise.all ([getWeather(city.latitude,city.longitude), 
+    const [weather, attraction, image] = await Promise.all ([
+      getWeather(city.latitude,city.longitude), 
       getNearbyAttractions(city.latitude, city.longitude),
+      getCityImage(city.name),
     ]);
 
     return res.status(200).json({
       city,
       weather,
       attraction,
+      image,
     });
 
   } catch (error) {

@@ -4,8 +4,13 @@ export async function getNearbyAttractions(
   latitude,
   longitude
 ) {
-    
+
 const API_KEY = process.env.OPENTRIPMAP_API_KEY;
+
+console.log(
+  "OpenTripMap key loaded:",
+  Boolean(process.env.OPENTRIPMAP_API_KEY)
+);
 
   if (!API_KEY) {
     throw new Error("OpenTripMap API key is missing.");
@@ -24,7 +29,7 @@ const API_KEY = process.env.OPENTRIPMAP_API_KEY;
     lat: String(latitude),
     rate: "2",
     format: "json",
-    limit: "6",
+    limit: "12",
     apikey: API_KEY,
   });
 
