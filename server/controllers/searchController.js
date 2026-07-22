@@ -4,6 +4,7 @@ import {
   getNearbyAttractions,
 } from "../services/attractionsService.js";
 import { getCityImage } from "../services/imageService.js";
+import { getCurrencyInfo } from "../services/currencyService.js";
 
 
 export async function getDestinationData(req, res) {
@@ -24,10 +25,13 @@ export async function getDestinationData(req, res) {
       });
     }
 
-    const [weather, attraction, image] = await Promise.all ([
+    const [weather, attraction, image, currency] = await Promise.all ([
       getWeather(city.latitude,city.longitude), 
       getNearbyAttractions(city.latitude, city.longitude),
       getCityImage(city.name),
+      getCurrencyInfo(city.countryCode).catch((err) => {
+      console.error("Valuta hiba:", err.message);
+      return null; })
     ]);
 
     return res.status(200).json({
@@ -35,6 +39,7 @@ export async function getDestinationData(req, res) {
       weather,
       attraction,
       image,
+      currency
     });
 
   } catch (error) {

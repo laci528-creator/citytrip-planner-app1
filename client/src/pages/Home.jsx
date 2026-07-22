@@ -70,6 +70,7 @@ function Home() {
         {city && (
                 <div className="destination-results">
                 <CitySection city={city.city} attractions={city.attraction} image={city.image} />
+                <CurrencySection currency={city.currency} />
 
                 <WeatherSection weather={city.weather} />
                 <AttractionSection attraction={city.attraction} />
@@ -81,6 +82,10 @@ function Home() {
         
 function CitySection({ city, attractions, image }) {
   const position = [city.latitude, city.longitude];
+
+
+
+
   return (
     <section className="result-card" style={{ padding: 0, overflow: "hidden" }}>
 
@@ -174,6 +179,38 @@ function CitySection({ city, attractions, image }) {
       </div>
 
 
+    </section>
+  );
+}
+
+
+function CurrencySection({ currency }) {
+  if (!currency) {
+    return null;
+  }
+
+  return (
+    <section className="result-card">
+      <h2>Local currency</h2>
+
+      <p>
+        <strong>Currency:</strong>{" "}
+        {currency.localCurrency}
+      </p>
+
+      <p>
+        <strong>Latest exchange rate:</strong>{" "}
+        1 {currency.baseCurrency} ={" "}
+        {formatExchangeRate(currency.rate)}{" "}
+        {currency.localCurrency}
+      </p>
+
+      {currency.date && (
+        <p>
+          <strong>Rate date:</strong>{" "}
+          {formatDate(currency.date)}
+        </p>
+      )}
     </section>
   );
 }
@@ -347,6 +384,13 @@ function formatCategory(category) {
   return category
     .replaceAll("_", " ")
     .replace(/\b\w/g, (letter) => letter.toUpperCase());
+}
+
+function formatExchangeRate(rate) {
+  return new Intl.NumberFormat("en-GB", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 4,
+  }).format(rate);
 }
 
 

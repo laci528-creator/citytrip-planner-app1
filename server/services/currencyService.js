@@ -1,39 +1,57 @@
-export async function getExchangeRate(baseCurrency, targetCurrency) {
-  const base = baseCurrency.trim().toUpperCase();
-  const target = targetCurrency.trim().toUpperCase();
+import countryToCurrency from "country-to-currency";
 
-  if (!/^[A-Z]{3}$/.test(base) || !/^[A-Z]{3}$/.test(target)) {
-    throw new Error("Invalid currency code.");
+const CURRENCY_API_URL = "https://api.frankfurter.dev/v2";
+
+export async function getCurrencyInfo(
+  countryCode,
+  baseCurrency = "EUR"
+) {
+  const normalizedCountryCode = countryCode
+    ?.trim()
+    .toUpperCase();
+
+  if (!normalizedCountryCode) {
+    return null;
   }
 
-  if (base === target) {
+  const localCurrency =
+    countryToCurrency[normalizedCountryCode];
+
+  if (!localCurrency) {
+    return null;
+  }
+
+  if (localCurrency === baseCurrency) {
     return {
-      base,
-      target,
+      baseCurrency,
+      localCurrency,
       rate: 1,
-      date: null,
+      date: new Date().toISOString().slice(0, 10),
     };
   }
 
   const url =
-    `https://api.frankfurter.dev/v2/rate/` +
-    `${encodeURIComponent(base)}/${encodeURIComponent(target)}`;
+    `${CURRENCY_API_URL}/rate/` +
+    `${baseCurrency}/${localCurrency}`;
 
   const response = await fetch(url);
 
   if (!response.ok) {
-    throw new Error("The currency service returned an error.");
+    const errorData = await response
+      .json()
+      .catch(() => null);
+
+    throw new Error(
+      errorData?.message ||
+        "The exchange rate could not be loaded."
+    );
   }
 
   const data = await response.json();
 
-  if (typeof data.rate !== "number") {
-    throw new Error("The currency service returned invalid data.");
-  }
-
   return {
-    base: data.base,
-    target: data.quote,
+    baseCurrency,
+    localCurrency,
     rate: data.rate,
     date: data.date,
   };
