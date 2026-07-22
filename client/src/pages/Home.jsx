@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
 import { searchCity } from "../services/api";
 
@@ -83,7 +83,7 @@ function CitySection({ city, attractions, image }) {
   const position = [city.latitude, city.longitude];
   return (
     <section className="result-card" style={{ padding: 0, overflow: "hidden" }}>
-      {/* 1. KÉP SZEKCIÓ (Borítókép) */}
+
       {image && (
         <div style={{ position: "relative", width: "100%", height: "350px" }}>
           <img
@@ -95,7 +95,7 @@ function CitySection({ city, attractions, image }) {
               objectFit: "cover",
             }}
           />
-          {/* Fotós kredit megjelenítése az Unsplash szabályzata miatt */}
+
           <div style={{
             position: "absolute",
             bottom: "8px",
@@ -280,7 +280,13 @@ function getWeatherDescription(code) {
 }
 
 function AttractionSection({ attraction }) {
-    if (!attraction) {
+  const [visibleAttractions, setVisibleAttractions] = useState(6);
+
+  useEffect(() => {
+    setVisibleAttractions(6);
+  }, [attraction]);
+
+  if (!Array.isArray(attraction) || attraction.length === 0) {
     return null;
   }
 
@@ -289,13 +295,13 @@ return (
       <h2>Nearby attractions</h2>
 
       <div className="attraction-grid">
-        {attraction.map((attr) => (
-          <article className="attraction-card" key={attr.id}>
-            <h3>{attr.name}</h3>
+{attraction.slice(0, visibleAttractions).map((attr) => (
+  <article className="attraction-card" key={attr.id}>
+    <h3>{attr.name}</h3>
 
-            <p>
-              <strong>Distance:</strong> {formatDistance(attr.distance)}
-            </p>
+    <p>
+      <strong>Distance:</strong> {formatDistance(attr.distance)}
+    </p>
               {attr.categories?.length > 0 && (
                 <>
                   <h4>Categories:</h4>
@@ -313,6 +319,17 @@ return (
           </article>
         ))}
       </div>
+      {visibleAttractions < attraction.length && (
+  <button
+    className="show-more-button"
+    type="button"
+    onClick={() =>
+      setVisibleAttractions((currentValue) => currentValue + 6)
+    }
+  >
+    Show more
+  </button>
+)}
     </section>
   );
 }
