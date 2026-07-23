@@ -10,7 +10,22 @@ function CitySection({ city, image }) {
             className="city-image"
           />
           <div className="photographer-name">
-            Photo by {image.photographerName} on Unsplash
+            Photo by{" "}
+              <a
+                href={image.photographerUrl}
+                target="_blank"
+                rel="noreferrer"
+              >
+                {image.photographerName}
+              </a>{" "}
+                on{" "}
+                <a
+                  href={image.unsplashUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Unsplash
+                </a>
           </div>
         </div>
       )}

@@ -7,11 +7,6 @@ export async function getNearbyAttractions(
 
 const API_KEY = process.env.OPENTRIPMAP_API_KEY;
 
-console.log(
-  "OpenTripMap key loaded:",
-  Boolean(process.env.OPENTRIPMAP_API_KEY)
-);
-
   if (!API_KEY) {
     throw new Error("OpenTripMap API key is missing.");
   }

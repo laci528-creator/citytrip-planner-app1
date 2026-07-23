@@ -25,7 +25,6 @@ export async function getCitySuggestions(req, res) {
 }
 
 
-
 export async function getDestinationData(req, res) {
   const { lat, lon, name, country, countryCode, population } = req.query;
 
@@ -45,7 +44,6 @@ export async function getDestinationData(req, res) {
       countryCode,
       population: population ? parseInt(population) : null,
     };
-    console.log(lat, typeof lat)
 
     const [weather, attraction, image, currency] = await Promise.all ([
       getWeather(city.latitude,city.longitude), 

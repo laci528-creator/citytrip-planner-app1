@@ -27,7 +27,9 @@ export async function getCityImage(cityName) {
     return {
       imageUrl: image.urls.regular,       
       altDescription: image.alt_description,
-      photographerName: image.user.name,  
+      photographerName: image.user.name,
+      photographerUrl: image.user.links.html,
+      unsplashUrl: image.links.html,  
     };
   } catch (error) {
     console.error("Image Service Error:", error);
