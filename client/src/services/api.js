@@ -1,26 +1,34 @@
 const BASE_URL = import.meta.env.VITE_API_URL;
 
-export async function searchCity(query) {
-const trimmedQuery = query.trim();
-
-  if (trimmedQuery.length < 2) {
-    throw new Error("Please enter at least 2 characters.");
+export async function fetchCitySuggestions(query) {
+  const response = await fetch(`${BASE_URL}/cities/search?query=${query}`);
+  
+  if (!response.ok) {
+    throw new Error("The city search service returned an error.");
   }
-  const url = `${BASE_URL}/search?query=${encodeURIComponent(trimmedQuery)}`;
+  
+  return await response.json();
+}
 
-  console.log("Request URL:", url);
+// 2. A teljes város adatainak lekérése (Promise.all a backendről)
+export async function searchCity(selectedCity) {
+  const queryParams = new URLSearchParams({
+    lat: selectedCity.latitude,
+    lon: selectedCity.longitude,
+    name: selectedCity.name,
+    countryCode: selectedCity.countryCode || "",
+    population: selectedCity.population || ""
+  });
 
-  const response = await fetch(url);
-
+  const response = await fetch(`${BASE_URL}/cities/details?${queryParams}`);
+  
   if (!response.ok) {
     const errorData = await response.json().catch(() => null);
-
-    throw new Error(
-      errorData?.message || "The city search was unsuccessful."
-    );
+    throw new Error(errorData?.message || "Failed to fetch destination data.");
   }
-
-  return response.json();
+  
+  return await response.json();
 }
+
 
 

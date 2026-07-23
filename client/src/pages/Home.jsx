@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import SearchBar from "../components/SearchBar";
-import { searchCity } from "../services/api";
+import { searchCity, fetchCitySuggestions } from "../services/api";
 
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -23,6 +23,9 @@ function Home() {
   const [city, setCity] = useState(null);
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [suggestions, setSuggestions] = useState([]);
+
+
 
   async function handleSearch(event) {
     event.preventDefault();
@@ -34,25 +37,50 @@ function Home() {
       return;
     }
 
-    try {
-      setIsLoading(true);
-      setErrorMessage("");
-      setCity(null);
+try {
+    setIsLoading(true);
+    setErrorMessage("");
+    setCity(null);
+    setSuggestions([]);
 
-      const cityData = await searchCity(trimmedSearchTerm);
+    const data = await fetchCitySuggestions(trimmedSearchTerm);
 
-      setCity(cityData);
-    } catch (error) {
-      setErrorMessage(error.message);
-    } finally {
-      setIsLoading(false);
+    if (data.length === 0) {
+      setErrorMessage("No cities found.");
+    } else {
+      setSuggestions(data);
     }
+  } catch (error) {
+    setErrorMessage(error.message);
+  } finally {
+    setIsLoading(false);
   }
+}
+
+
+
+async function handleCitySelect(selectedCity) {
+  setSuggestions([]); // Eltüntetjük a legördülő listát
+  setSearchTerm(selectedCity.name); // Beírjuk a keresőbe a kiválasztott város nevét
+
+  try {
+    setIsLoading(true);
+    setErrorMessage("");
+
+    const cityData = await searchCity(selectedCity);
+    
+    setCity(cityData);
+  } catch (error) {
+    setErrorMessage(error.message);
+  } finally {
+    setIsLoading(false);
+  }
+}
 
 
   return (
     <main className="main-container">
-      <div className="hero-header">
+      <div className="hero-header" style={{ position: "relative" }}>
       <h1>Urlaub Planer</h1>
       <p>Search for your holiday destination.</p>
       
@@ -61,6 +89,45 @@ function Home() {
         setSearchTerm={setSearchTerm}
         onSearch={handleSearch}
       />
+      {suggestions.length > 0 && (
+    <ul style={{
+      position: "absolute",
+      top: "100%",
+      left: "50%",
+      transform: "translateX(-50%)",
+      width: "100%",
+      maxWidth: "500px",
+      backgroundColor: "white",
+      borderRadius: "8px",
+      boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+      listStyle: "none",
+      padding: "0",
+      margin: "10px 0 0 0",
+      zIndex: 1000,
+      textAlign: "left",
+      overflow: "hidden"
+    }}>
+      {suggestions.map((suggestion, index) => (
+        <li 
+          key={index} 
+          onClick={() => handleCitySelect(suggestion)}
+          style={{
+            padding: "12px 16px",
+            borderBottom: "1px solid #eee",
+            cursor: "pointer",
+            transition: "background 0.2s"
+          }}
+          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
+          onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'white'}
+        >
+          <strong>{suggestion.name}</strong> 
+          <span style={{ color: "#666", fontSize: "0.9rem", marginLeft: "8px" }}>
+            {suggestion.admin1 ? `${suggestion.admin1}, ` : ""} {suggestion.country}
+          </span>
+        </li>
+      ))}
+    </ul>
+  )}
       </div>
 
       {isLoading && <p>Searching...</p>}
@@ -79,11 +146,11 @@ function Home() {
             </main>
         );
     }
+
+
         
 function CitySection({ city, attractions, image }) {
   const position = [city.latitude, city.longitude];
-
-
 
 
   return (
