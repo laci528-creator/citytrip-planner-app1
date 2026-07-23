@@ -1,3 +1,5 @@
+
+
 export async function getWeather(latitude, longitude) {
   if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
     throw new Error("Invalid geographical coordinates.");

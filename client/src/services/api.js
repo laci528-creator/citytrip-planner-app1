@@ -10,12 +10,12 @@ export async function fetchCitySuggestions(query) {
   return await response.json();
 }
 
-// 2. A teljes város adatainak lekérése (Promise.all a backendről)
 export async function searchCity(selectedCity) {
   const queryParams = new URLSearchParams({
     lat: selectedCity.latitude,
     lon: selectedCity.longitude,
     name: selectedCity.name,
+    country: selectedCity.country,
     countryCode: selectedCity.countryCode || "",
     population: selectedCity.population || ""
   });
@@ -29,6 +29,3 @@ export async function searchCity(selectedCity) {
   
   return await response.json();
 }
-
-
-
