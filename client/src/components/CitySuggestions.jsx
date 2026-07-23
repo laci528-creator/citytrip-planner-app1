@@ -1,4 +1,3 @@
-import React from "react";
 
 export default function CitySuggestions({ suggestions, onSelect }) {
   if (!suggestions || suggestions.length === 0) {

@@ -1,8 +1,7 @@
-import React from "react";
 
 function CitySection({ city, image }) {
   return (
-    <section className="result-card">
+    <section className="result-card" style={{ padding: "0", overflow: "hidden"}}>
       {image && (
         <div className="top-image-container">
           <img

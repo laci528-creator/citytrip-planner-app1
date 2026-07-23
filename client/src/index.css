@@ -204,7 +204,7 @@ body {
 .result-card {
   background: var(--card-bg);
   border-radius: var(--radius);
-  padding: 0px;
+  padding: 24px;
   overflow: hidden;
   box-shadow: var(--shadow-md);
   border: 1px solid var(--border-color);
