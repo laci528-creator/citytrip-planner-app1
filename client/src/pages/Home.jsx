@@ -4,7 +4,6 @@ import SearchBar from "../components/SearchBar";
 import CitySuggestions from "../components/CitySuggestions";
 import CitySection from "../components/CitySection";
 import CityMap from "../components/CityMap";
-import CurrencySection from "../components/CurrencySection";
 import WeatherSection from "../components/WeatherSection";
 import AttractionSection from "../components/AttractionSection";
 
@@ -74,8 +73,8 @@ async function handleCitySelect(selectedCity) {
   return (
     <main className="main-container">
       <div className="hero-header" style={{ position: "relative" }}>
-      <h1>Urlaub Planer</h1>
-      <p>Search for your holiday destination.</p>
+      <h1>CityTrip Planner</h1>
+      <p>Plan your next urban adventure.</p>
       
       <SearchBar
         searchTerm={searchTerm}

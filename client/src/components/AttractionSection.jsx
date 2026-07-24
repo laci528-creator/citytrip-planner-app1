@@ -23,13 +23,13 @@ return (
                 {attr.categories?.length > 0 && (
                   <>
                     <h4>Categories:</h4>
-                      <ul>
+                      <div className="category-list">
                         {attr.categories.map((category) => (
-                          <li className="category-list" key={`${attr.id}-${category}`}>
+                          <span className="category-badge" key={`${attr.id}-${category}`}>
                             {formatCategory(category)}
-                          </li>
+                          </span>
                         ))}
-                      </ul>
+                      </div>
                   </>
                 )}
           </article>
