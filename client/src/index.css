@@ -260,7 +260,7 @@ body {
   height: 400px;
   width: 100%;
   margin-Top: 15px;
-  border-Radius: 8px;
+  border-radius: 8px;
   overflow: hidden;
 }
 
@@ -274,7 +274,7 @@ body {
 .forecast-card {
   background: var(--bg-color);
   border-radius: 8px;
-  box-shadow: #3730a3;
+  box-shadow: var(--shadow-sm);
   padding: 12px;
   text-align: center;
   border: 1px solid var(--border-color);

@@ -87,9 +87,9 @@ async function handleCitySelect(selectedCity) {
       />
       </div>
 
-      {isLoading && <p>Searching...</p>}
+      {isLoading && <p className="status-message loading">Searching...</p>}
 
-      {errorMessage && <p>{errorMessage}</p>}
+      {errorMessage && <p className="status-message error">{errorMessage}</p>}
 
         {city && (
                 <div className="destination-results">
