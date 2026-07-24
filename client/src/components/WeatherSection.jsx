@@ -9,38 +9,42 @@ function WeatherSection({ weather }) {
     <section className="result-card">
       <h2>Current weather</h2>
 
-      <p>
-        <strong>Temperature:</strong>{" "}
-        {weather.current.temperature} °C
-      </p>
-
-      <p>
-        <strong>Feels like:</strong>{" "}
-        {weather.current.apparentTemperature} °C
-      </p>
-
-      <p>
-        <strong>Humidity:</strong> {weather.current.humidity}%
-      </p>
-
-      <p>
-        <strong>Wind speed:</strong>{" "}
-        {weather.current.windSpeed} km/h
-      </p>
-
-      <p>
-        <strong>Conditions:</strong>{" "}
-        {getWeatherDescription(weather.current.weatherCode)}
-      </p>
-
       {weather.daily?.length > 0 && (
         <>
-          <h3>7-day forecast</h3>
-
           <div className="forecast-grid">
+              <article className="forecast-card" key={weather.current.date}>
+                <h4>Right Now</h4>
+                <img 
+                  src={getWeatherIconUrl(weather.current.weatherCode)} 
+                  alt={getWeatherDescription(weather.current.weatherCode)}
+                  style={{ width: "80px", height: "80px", margin: "8px 0" }} 
+                />
+                <p>
+                  {getWeatherDescription(weather.current.weatherCode)}
+                </p>
+
+                <p>
+                  Current: {weather.current.temperature} °C
+                </p>
+
+                <p>
+                  Feels Like: {weather.current.apparentTemperature} °C
+                </p>
+
+                <p>
+                  Wind: {weather.current.windSpeed} {" "} km/h
+                </p>
+              </article>
+
             {weather.daily.map((day) => (
               <article className="forecast-card" key={day.date}>
                 <h4>{formatDate(day.date)}</h4>
+
+                <img 
+                  src={getWeatherIconUrl(day.weatherCode)} 
+                  alt={getWeatherDescription(day.weatherCode)}
+                  style={{ width: "80px", height: "80px", margin: "8px 0" }} 
+                />
 
                 <p>
                   {getWeatherDescription(day.weatherCode)}
@@ -91,6 +95,36 @@ function getWeatherDescription(code) {
 
   return weatherCodes[code] ?? "Unknown conditions";
 }
+
+function getWeatherIconUrl(code) {
+  const weatherIcons = {
+    0: "day.svg",                  // Clear sky
+    1: "cloudy-day-1.svg",         // Mainly clear
+    2: "cloudy-day-2.svg",         // Partly cloudy
+    3: "cloudy.svg",               // Overcast
+    45: "cloudy.svg",              // Fog (amCharts-ban nincs külön köd, a felhős tökéletes)
+    48: "cloudy.svg",              // Rime fog
+    51: "rainy-4.svg",             // Light drizzle
+    53: "rainy-5.svg",             // Moderate drizzle
+    55: "rainy-6.svg",             // Heavy drizzle
+    61: "rainy-4.svg",             // Light rain
+    63: "rainy-5.svg",             // Moderate rain
+    65: "rainy-6.svg",             // Heavy rain
+    71: "snowy-4.svg",             // Light snow
+    73: "snowy-5.svg",             // Moderate snow
+    75: "snowy-6.svg",             // Heavy snow
+    80: "rainy-4.svg",             // Light rain showers
+    81: "rainy-5.svg",             // Moderate rain showers
+    82: "rainy-6.svg",             // Heavy rain showers
+    95: "thunder.svg",             // Thunderstorm
+  };
+
+  const fileName = weatherIcons[code] ?? "weather.svg"; 
+  
+  return `/icons/weather/${fileName}`;
+}
+
+
 
 
 export default WeatherSection;
