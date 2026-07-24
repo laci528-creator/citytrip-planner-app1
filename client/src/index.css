@@ -1,5 +1,7 @@
 
 :root {
+  --nav-text-color: #374151;
+  --nav-active-color: #2563eb;
   --primary-color: #2563eb;
   --primary-hover: #1d4ed8;
   --bg-color: #f8fafc;
@@ -20,10 +22,50 @@ body {
   padding: 0;
 }
 
+.site-header {
+  background-color: transparent;
+  padding: 1rem 2rem;
+}
+
+.navigation {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+}
+
+.nav-link {
+  color: var(--nav-text-color);
+  text-decoration: none;
+  font-weight: 600;
+  padding: 0.5rem 0;
+  border-bottom: 2px solid transparent;
+    transition:
+    color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.nav-link:hover {
+  border-bottom-color: var(--nav-active-color);
+}
+
+.nav-link.active {
+  border-bottom-color: var(--nav-active-color);
+}
+
+@media (max-width: 600px) {
+  .site-header {
+    padding: 0.75rem 1rem;
+  }
+
+  .navigation {
+    gap: 1.25rem;
+  }
+}
+
 .main-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 20px 20px;
 }
 
 /* Header */
