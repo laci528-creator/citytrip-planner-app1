@@ -1,5 +1,6 @@
+import { formatDate, formatExchangeRate } from "../utils/formatters";
 
-function CitySection({ city, image }) {
+function CitySection({ city, image, currency }) {
   return (
     <section className="result-card" style={{ padding: "0", overflow: "hidden"}}>
       {image && (
@@ -35,6 +36,10 @@ function CitySection({ city, image }) {
           {city.name}, {city.country}
         </h2>
 
+        <div className="city-info-grid">
+
+<div className="info-column">
+  <h4 style={{ marginBottom: "10px", marginTop: "0" }}>Location Info</h4>
         {city.population != null && (
           <p>
             <strong>Population:</strong> {city.population.toLocaleString()}
@@ -48,6 +53,26 @@ function CitySection({ city, image }) {
         <p>
           <strong>Longitude:</strong> {city.longitude}
         </p>
+</div>
+        {currency !=null && (
+                    <div className="info-column">
+                      <h4 style={{ marginBottom: "10px", marginTop: "0" }}>Local Currency</h4>
+                      <p><strong>Currency:</strong> {currency.localCurrency}</p>
+                      <p><strong>Latest exchange rate:</strong> 1 {currency.baseCurrency} ={" "}
+        {formatExchangeRate(currency.rate)}{" "}
+        {currency.localCurrency}</p>
+                            {currency.date && (
+        <p>
+          <strong>Rate date:</strong>{" "}
+          {formatDate(currency.date)}
+        </p>
+      )}
+                    </div>
+                  )}
+
+
+
+        </div>
       </div>
     </section>
   );

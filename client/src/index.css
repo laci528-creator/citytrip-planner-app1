@@ -217,6 +217,27 @@ body {
   margin-top: 30px;
 }
 
+.city-info-grid {
+  display: grid;
+  grid-template-columns: 1fr; /* Mobilon 1 oszlop */
+  gap: 20px;
+  margin-top: 20px;
+  background-color: #f8fafc;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+@media (min-width: 600px) {
+  .city-info-grid {
+    grid-template-columns: 1fr 1fr; /* Asztali nézeten 2 oszlop */
+  }
+}
+
+.info-column p {
+  margin: 5px 0;
+  font-size: 0.95rem;
+}
+
 .result-card {
   background: var(--card-bg);
   border-radius: var(--radius);
@@ -262,7 +283,7 @@ body {
 
 .forecast-card:hover {
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  transform: translateY(-4px);
+  transform: translateY(-5px);
   cursor: pointer;
 }
 

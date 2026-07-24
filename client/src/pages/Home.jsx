@@ -94,7 +94,7 @@ async function handleCitySelect(selectedCity) {
 
         {city && (
                 <div className="destination-results">
-                <CitySection city={city.city} attractions={city.attraction} image={city.image} />
+                <CitySection city={city.city} attractions={city.attraction} image={city.image} currency={city.currency} />
                 <CityMap 
                     latitude={city.city.latitude} 
                     longitude={city.city.longitude} 
@@ -102,7 +102,6 @@ async function handleCitySelect(selectedCity) {
                     country={city.city.country} 
                     attractions={city.attraction} 
                   />
-                <CurrencySection currency={city.currency} />
                 <WeatherSection weather={city.weather} />
                 <AttractionSection attraction={city.attraction} />
                 </div>

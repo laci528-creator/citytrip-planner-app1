@@ -19,3 +19,10 @@ export function formatDate(dateString) {
     month: "short",
   }).format(new Date(dateString));
 }
+
+export function formatExchangeRate(rate) {
+  return new Intl.NumberFormat("en-GB", {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 4,
+  }).format(rate);
+}
