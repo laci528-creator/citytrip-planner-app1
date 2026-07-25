@@ -5,7 +5,20 @@ import { formatDistance, formatCategory } from "../utils/formatters";
 function AttractionSection({ attraction }) {
   const [visibleAttractions, setVisibleAttractions] = useState(6);
 
-  if (!Array.isArray(attraction) || attraction.length === 0) {
+if (attraction?.error) {
+    return (
+      <section className="result-card">
+        <h2>Nearby attractions</h2>
+        <div className="error-box">
+          {attraction.message}
+        </div>
+      </section>
+    );
+  }
+
+  const places = attraction?.data;
+
+if (!Array.isArray(places) || places.length === 0) {
     return null;
   }
 
@@ -14,7 +27,7 @@ return (
       <h2>Nearby attractions</h2>
 
       <div className="attraction-grid">
-        {attraction.slice(0, visibleAttractions).map((attr) => (
+        {places.slice(0, visibleAttractions).map((attr) => (
           <article className="attraction-card" key={attr.id}>
             <h3>{attr.name}</h3>
               <p>
@@ -36,7 +49,7 @@ return (
         ))}
       </div>
 
-      {visibleAttractions < attraction.length && (
+      {visibleAttractions < places.length && (
         <button
           className="show-more-button"
           type="button"

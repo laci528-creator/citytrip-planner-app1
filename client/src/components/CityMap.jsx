@@ -21,6 +21,8 @@ L.Icon.Default.mergeOptions({
 export default function CityMap({ latitude, longitude, cityName, country, attractions }) {
   const position = [latitude, longitude];
 
+  const attrArray= attractions.data;
+
   return (
     <div className="map-panel">
       <MapContainer
@@ -40,7 +42,7 @@ export default function CityMap({ latitude, longitude, cityName, country, attrac
           </Popup>
         </Marker>
 
-        {attractions?.map((attraction) => (
+        {attrArray?.map((attraction) => (
           <Marker
             key={attraction.id}
             position={[attraction.latitude, attraction.longitude]}

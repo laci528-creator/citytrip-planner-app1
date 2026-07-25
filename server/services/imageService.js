@@ -12,19 +12,30 @@ export async function getCityImage(cityName) {
       },
     });
 
-    if (!response.ok) {
-      throw new Error("Hiba a kép lekérésekor");
+        if (!response.ok) {
+      const errorData = await response.json().catch(() => null);
+
+      if (response.status === 429) {
+        return { error: true, code: "LIMIT_REACHED", message: "Image API request limit exceeded." };
+      }
+
+      return { 
+        error: true, 
+        code: "API_ERROR", 
+        message: errorData?.reason || "The Image service returned an error." 
+      };
     }
 
     const data = await response.json();
 
     if (data.results.length === 0) {
-      return null; 
+      return { error: false, code: "DONT HAVE PHOTO", message: "Image API dont have photo for this City." }; 
     }
 
     const image = data.results[0];
 
     return {
+      error:false,
       imageUrl: image.urls.regular,       
       altDescription: image.alt_description,
       photographerName: image.user.name,
@@ -32,7 +43,7 @@ export async function getCityImage(cityName) {
       unsplashUrl: image.links.html,  
     };
   } catch (error) {
-    console.error("Image Service Error:", error);
-    return null; 
+    console.error("Image Fetch Error:", error);
+    return { error: true, code: "NETWORK_ERROR", message: "Failed to connect to Image provider." };
   }
 }

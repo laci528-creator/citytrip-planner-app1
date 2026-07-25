@@ -2,9 +2,14 @@
 
 export async function getWeather(latitude, longitude) {
   if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
-    throw new Error("Invalid geographical coordinates.");
+    return {
+      error:true,
+      code:"INVALID COORDINATES",
+      message:"Invalid geographical coordinates."
+    }
   }
 
+try {
   const params = new URLSearchParams({
     latitude: String(latitude),
     longitude: String(longitude),
@@ -39,14 +44,21 @@ export async function getWeather(latitude, longitude) {
   if (!response.ok) {
     const errorData = await response.json().catch(() => null);
 
-    throw new Error(
-      errorData?.reason || "The weather service returned an error."
-    );
+    if (response.status === 429) {
+        return { error: true, code: "LIMIT_REACHED", message: "Daily API request limit exceeded." };
   }
+      return { 
+        error: true, 
+        code: "API_ERROR", 
+        message: errorData?.reason || "The weather service returned an error." 
+      };
+    }
+
 
   const data = await response.json();
 
   return {
+    error: false,
     timezone: data.timezone,
 
     current: {
@@ -69,4 +81,8 @@ export async function getWeather(latitude, longitude) {
       sunset: data.daily.sunset[index],
     })),
   };
+    } catch (err) {
+    console.error("Weather Fetch Error:", err);
+    return { error: true, code: "NETWORK_ERROR", message: "Failed to connect to weather provider." };
+  }
 }

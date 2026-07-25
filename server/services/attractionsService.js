@@ -7,17 +7,15 @@ export async function getNearbyAttractions(
 
 const API_KEY = process.env.OPENTRIPMAP_API_KEY;
 
-  if (!API_KEY) {
-    throw new Error("OpenTripMap API key is missing.");
+if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
+    return { 
+      error: true, 
+      code: "INVALID_COORDINATES", 
+      message: "Invalid geographical coordinates." 
+    };
   }
 
-  if (
-    !Number.isFinite(latitude) ||
-    !Number.isFinite(longitude)
-  ) {
-    throw new Error("Invalid geographical coordinates.");
-  }
-
+  try {
   const params = new URLSearchParams({
     radius: "5000",
     lon: String(longitude),
@@ -35,14 +33,21 @@ const API_KEY = process.env.OPENTRIPMAP_API_KEY;
   const response = await fetch(url);
 
   if (!response.ok) {
-    throw new Error(
-      "The attractions service returned an error."
-    );
+    const errorData = await response.json().catch(() => null);  
+
+    if (response.status === 429) {
+        return { error: true, code: "LIMIT_REACHED", message: "Daily API request limit exceeded." };
   }
+        return { 
+        error: true, 
+        code: "API_ERROR", 
+        message: errorData?.reason || "The NearbyAttraction service returned an error." 
+      };
+    }
 
   const places = await response.json();
 
-  return places
+  const formattedPlaces = places
     .filter((place) => place.name?.trim())
     .map((place) => ({
       id: place.xid,
@@ -54,4 +59,17 @@ const API_KEY = process.env.OPENTRIPMAP_API_KEY;
       latitude: place.point?.lat ?? null,
       longitude: place.point?.lon ?? null,
     }));
+
+    
+  return {
+      error: false,
+      data: formattedPlaces
+  };
+
+} catch (err) {
+    console.error("Attraction Fetch Error:", err);
+    return { error: true, code: "NETWORK_ERROR", message: "Failed to connect to OPENTRIPMAP provider." 
+    };
+  }
 }
+

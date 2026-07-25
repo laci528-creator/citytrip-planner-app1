@@ -54,6 +54,7 @@ export async function getDestinationData(req, res) {
       return null; })
     ]);
 
+
     return res.status(200).json({
       city,
       weather,

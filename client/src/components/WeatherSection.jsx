@@ -1,17 +1,23 @@
 import { formatDate } from "../utils/formatters";
 
 function WeatherSection({ weather }) {
-  if (!weather) {
-    return null;
+if (weather?.error) {
+    return (
+      <section className="result-card">
+        <h2>Current weather</h2>
+        <div className="error-box">
+          {weather.message}
+        </div>
+      </section>
+    );
   }
 
   return (
     <section className="result-card">
       <h2>Current weather</h2>
 
-      {weather.daily?.length > 0 && (
-        <>
           <div className="forecast-grid">
+            {weather?.current && (
               <article className="forecast-card" key={weather.current.date}>
                 <h4>Right Now</h4>
                 <img 
@@ -35,8 +41,9 @@ function WeatherSection({ weather }) {
                   Wind: {weather.current.windSpeed} {" "} km/h
                 </p>
               </article>
+            )}
 
-            {weather.daily.map((day) => (
+            {weather?.daily?.length > 0 && weather.daily.map((day) => (
               <article className="forecast-card" key={day.date}>
                 <h4>{formatDate(day.date)}</h4>
 
@@ -64,8 +71,6 @@ function WeatherSection({ weather }) {
               </article>
             ))}
           </div>
-        </>
-      )}
     </section>
   );
 }   
