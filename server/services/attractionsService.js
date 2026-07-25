@@ -1,17 +1,27 @@
 
-
 export async function getNearbyAttractions(
   latitude,
   longitude
 ) {
 
+
 const API_KEY = process.env.OPENTRIPMAP_API_KEY;
+
+  if (!API_KEY) {
+    return {
+      error: true,
+      code: "MISSING_API_KEY",
+      message: "The attractions service is unavailable.",
+      data: [],
+    };
+  }
 
 if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
     return { 
       error: true, 
       code: "INVALID_COORDINATES", 
-      message: "Invalid geographical coordinates." 
+      message: "Invalid geographical coordinates.",
+      data: [],
     };
   }
 
@@ -33,15 +43,17 @@ if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
   const response = await fetch(url);
 
   if (!response.ok) {
-    const errorData = await response.json().catch(() => null);  
-
-    if (response.status === 429) {
-        return { error: true, code: "LIMIT_REACHED", message: "Daily API request limit exceeded." };
-  }
+      const errorData = await response
+        .json()
+        .catch(() => null);
+          if (response.status === 429) {
+              return { error: true, code: "LIMIT_REACHED", message: "Attractions API request limit exceeded." , data: [], };
+          }
         return { 
         error: true, 
         code: "API_ERROR", 
-        message: errorData?.reason || "The NearbyAttraction service returned an error." 
+        message: errorData?.reason || errorData?.message || "Nearby attractions could not be loaded." ,
+        data: [],
       };
     }
 
@@ -68,7 +80,11 @@ if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
 
 } catch (err) {
     console.error("Attraction Fetch Error:", err);
-    return { error: true, code: "NETWORK_ERROR", message: "Failed to connect to OPENTRIPMAP provider." 
+    return { 
+      error: true, 
+      code: "NETWORK_ERROR", 
+      message: "Failed to connect to OPENTRIPMAP provider.",
+      data: [],
     };
   }
 }

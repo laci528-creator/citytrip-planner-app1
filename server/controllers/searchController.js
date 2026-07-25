@@ -29,16 +29,28 @@ export async function getDestinationData(req, res) {
   const { lat, lon, name, country, countryCode, population } = req.query;
 
 
-  if (!lat || !lon || !name) {
+  if (lat == null || lon == null || !name?.trim()) {
     return res.status(400).json({
       message: "Latitude, longitude, and city name are required.",
     });
   }
 
+    const latitude = Number.parseFloat(lat);
+    const longitude = Number.parseFloat(lon);
+
+  if (
+    !Number.isFinite(latitude) ||
+    !Number.isFinite(longitude)
+  ) {
+    return res.status(400).json({
+      message: "Invalid latitude or longitude.",
+    });
+  }
+
   try {
     const city = {
-      latitude: parseFloat(lat),
-      longitude: parseFloat(lon),
+      latitude,
+      longitude,
       name,
       country,
       countryCode,
@@ -49,9 +61,7 @@ export async function getDestinationData(req, res) {
       getWeather(city.latitude,city.longitude), 
       getNearbyAttractions(city.latitude, city.longitude),
       getCityImage(city.name),
-      getCurrencyInfo(city.countryCode).catch((err) => {
-      console.error("Valuta hiba:", err.message);
-      return null; })
+      getCurrencyInfo(city.countryCode),
     ]);
 
 
