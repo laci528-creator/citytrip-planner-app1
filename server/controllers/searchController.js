@@ -29,8 +29,9 @@ export async function getCitySuggestions(req, res) {
 export async function getDestinationData(req, res) {
   const { lat, lon, name, country, countryCode, population } = req.query;
 
+  const cityName = name.trim();
 
-  if (lat == null || lon == null || !name?.trim()) {
+  if (lat == null || lon == null || !cityName) {
     return res.status(400).json({
       message: "Latitude, longitude, and city name are required.",
     });
@@ -50,10 +51,12 @@ export async function getDestinationData(req, res) {
     const city = {
       latitude,
       longitude,
-      name,
+      cityName,
       country,
       countryCode,
-      population: population ? parseInt(population) : null,
+      population: population
+      ? Number.parseInt(population, 10)
+      : null,
     };
 
     const [weather, attraction, image, currency] = await Promise.all ([

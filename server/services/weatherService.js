@@ -1,13 +1,14 @@
-
+import { isValidCoordinates } from "../utils/validators.js";
 
 export async function getWeather(latitude, longitude) {
-  if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
-    return {
-      error:true,
-      code:"INVALID COORDINATES",
-      message:"Invalid geographical coordinates."
-    }
-  }
+
+if (!isValidCoordinates(latitude, longitude)) {
+  return {
+    error: true,
+    code: "INVALID_COORDINATES",
+    message: "Invalid geographical coordinates.",
+  };
+}
 
 try {
   const params = new URLSearchParams({
@@ -45,7 +46,7 @@ try {
     const errorData = await response.json().catch(() => null);
 
     if (response.status === 429) {
-        return { error: true, code: "LIMIT_REACHED", message: "Daily API request limit exceeded." };
+        return { error: true, code: "LIMIT_REACHED", message: "Daily API request limit exceeded. Please try again later." };
   }
       return { 
         error: true, 
