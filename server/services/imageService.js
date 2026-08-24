@@ -11,15 +11,15 @@ export async function getCityImage(cityName) {
   };
 }
 
-
-
     const params = new URLSearchParams({
       query: cityName,
       orientation: "landscape",
       per_page: "1",
     });
   
-  const url = `https://api.unsplash.com/search/photos?query=${params.toString()}`;
+  const url = `https://api.unsplash.com/search/photos?${params.toString()}`;
+
+  //console.log("Unsplash search:", cityName);
 
   try {
     const response = await fetch(url, {
@@ -32,7 +32,7 @@ export async function getCityImage(cityName) {
       const errorData = await response.json().catch(() => null);
 
       if (response.status === 429) {
-        return { error: true, code: "LIMIT_REACHED", message: "Image API request limit exceeded." };
+        return { error: true, code: "LIMIT_REACHED", message: "Image API request limit exceeded. Please try again later." };
       }
 
       return { 
@@ -55,8 +55,8 @@ export async function getCityImage(cityName) {
     if (data.results.length === 0) {
       return { 
         error: false, 
-        code: "DONT HAVE PHOTO", 
-        message: "Image API dont have photo for this City." }; 
+        code: "NO_IMAGE", 
+        message: "No image was found for this city." }; 
     }
 
     const image = data.results[0];

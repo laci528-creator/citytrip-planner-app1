@@ -59,10 +59,12 @@ export async function getDestinationData(req, res) {
       : null,
     };
 
+    //console.log("Destination city:", city);
+
     const [weather, attraction, image, currency] = await Promise.all ([
       getWeather(city.latitude,city.longitude), 
       getNearbyAttractions(city.latitude, city.longitude),
-      getCityImage(city.name),
+      getCityImage(city.cityName),
       getCurrencyInfo(city.countryCode),
     ]);
 

@@ -52,7 +52,7 @@ function CitySection({ city, image, currency }) {
 
       <div style={{ padding: "24px" }}>
         <h2>
-          {city.name}, {city.country}
+          {city.cityName}, {city.country}
         </h2>
 
         <div className="city-info-grid">

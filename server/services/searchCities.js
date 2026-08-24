@@ -1,6 +1,15 @@
 
 
 export async function getCity(query) {
+
+    if (!query?.trim()) {
+    return {
+      error: true,
+      code: "INVALID_CITY_NAME",
+      message: "A valid city name is required.",
+    };
+  }
+  
   const searchUrl =
     `https://geocoding-api.open-meteo.com/v1/search` +
     `?name=${encodeURIComponent(query)}` +
