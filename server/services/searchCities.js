@@ -1,21 +1,15 @@
 
-
 export async function getCity(query) {
 
-    if (!query?.trim()) {
-    return {
-      error: true,
-      code: "INVALID_CITY_NAME",
-      message: "A valid city name is required.",
-    };
-  }
-  
-  const searchUrl =
-    `https://geocoding-api.open-meteo.com/v1/search` +
-    `?name=${encodeURIComponent(query)}` +
-    `&count=5` +
-    `&language=en` +
-    `&format=json`;
+const params = new URLSearchParams({
+  name: query.trim(),
+  count: "5",
+  language: "en",
+  format: "json",
+});
+
+const searchUrl =
+  `https://geocoding-api.open-meteo.com/v1/search?${params.toString()}`;
 
   const response = await fetch(searchUrl);
 
@@ -25,7 +19,7 @@ export async function getCity(query) {
 
   const data = await response.json();
   
-  if (!data.results || data.results.length === 0) {
+  if (!Array.isArray(data.results)) {
     return [];
   }
 
@@ -39,4 +33,3 @@ export async function getCity(query) {
     admin1: city.admin1,
   }));
 }
-

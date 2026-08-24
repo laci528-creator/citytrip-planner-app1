@@ -13,7 +13,7 @@ export async function getCurrencyInfo(
   if (!normalizedCountryCode) {
     return { 
       error: true, 
-      code: "INVALID_COUNTRYCODE", 
+      code: "INVALID_COUNTRY_CODE", 
       message: "Country code is missing or invalid." 
     };
   }
@@ -24,10 +24,9 @@ export async function getCurrencyInfo(
   if (!localCurrency) {
     return {
       error: true, 
-      code: "INVALID_COUNTRYCODE", 
-      message: "Invalid COUNTRY CODE." 
+      code: "INVALID_COUNTRY_CODE", 
+      message: "INVALID_COUNTRY_CODE." 
     }
-    
   }
 
   if (localCurrency === baseCurrency) {
@@ -53,16 +52,25 @@ export async function getCurrencyInfo(
       .catch(() => null);
 
       if (response.status === 429) {
-        return { error: true, code: "LIMIT_REACHED", message: "Daily API request limit exceeded." };
+        return { error: true, code: "LIMIT_REACHED", message: "Daily API request limit exceeded. Please try again later." };
       }
     return { 
         error: true, 
         code: "API_ERROR", 
-        message: errorData?.reason || "The currency service returned an error." 
+        message: errorData?.message || "The currency service returned an error." 
       };
   }
 
   const data = await response.json();
+
+    if (!Number.isFinite(data.rate)) {
+      return {
+        error: true,
+        code: "INVALID_RESPONSE",
+        message:
+          "The currency service returned unexpected data.",
+      };
+    }
 
   return {
     error:false,
