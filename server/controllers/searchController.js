@@ -5,6 +5,7 @@ import {
 } from "../services/attractionsService.js";
 import { getCityImage } from "../services/imageService.js";
 import { getCurrencyInfo } from "../services/currencyService.js";
+import { isValidCoordinates } from "../utils/validators.js";
 
 
 export async function getCitySuggestions(req, res) {
@@ -39,9 +40,7 @@ export async function getDestinationData(req, res) {
     const longitude = Number.parseFloat(lon);
 
   if (
-    !Number.isFinite(latitude) ||
-    !Number.isFinite(longitude)
-  ) {
+    !isValidCoordinates(latitude, longitude)) {
     return res.status(400).json({
       message: "Invalid latitude or longitude.",
     });
