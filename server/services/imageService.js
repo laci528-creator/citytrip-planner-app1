@@ -2,8 +2,24 @@
 export async function getCityImage(cityName) {
 
   const accessKey = process.env.UNSPLASH_ACCESS_KEY; 
+
+  if (!accessKey) {
+  return {
+    error: true,
+    code: "MISSING_API_KEY",
+    message: "The image service is unavailable.",
+  };
+}
+
+
+
+    const params = new URLSearchParams({
+      query: cityName,
+      orientation: "landscape",
+      per_page: "1",
+    });
   
-  const url = `https://api.unsplash.com/search/photos?query=${encodeURIComponent(cityName)}&orientation=landscape&per_page=1`;
+  const url = `https://api.unsplash.com/search/photos?query=${params.toString()}`;
 
   try {
     const response = await fetch(url, {
@@ -12,7 +28,7 @@ export async function getCityImage(cityName) {
       },
     });
 
-        if (!response.ok) {
+    if (!response.ok) {
       const errorData = await response.json().catch(() => null);
 
       if (response.status === 429) {
@@ -28,8 +44,19 @@ export async function getCityImage(cityName) {
 
     const data = await response.json();
 
+    if (!Array.isArray(data.results)) {
+      return {
+        error: true,
+        code: "INVALID_RESPONSE",
+        message: "The image service returned unexpected data.",
+      };
+    }
+
     if (data.results.length === 0) {
-      return { error: false, code: "DONT HAVE PHOTO", message: "Image API dont have photo for this City." }; 
+      return { 
+        error: false, 
+        code: "DONT HAVE PHOTO", 
+        message: "Image API dont have photo for this City." }; 
     }
 
     const image = data.results[0];

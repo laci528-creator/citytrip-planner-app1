@@ -1,3 +1,4 @@
+import { isValidCoordinates } from "../utils/validators.js";
 
 export async function getNearbyAttractions(
   latitude,
@@ -16,14 +17,14 @@ const API_KEY = process.env.OPENTRIPMAP_API_KEY;
     };
   }
 
-if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
-    return { 
-      error: true, 
-      code: "INVALID_COORDINATES", 
-      message: "Invalid geographical coordinates.",
-      data: [],
-    };
-  }
+if (!isValidCoordinates(latitude, longitude)) {
+  return {
+    error: true,
+    code: "INVALID_COORDINATES",
+    message: "Invalid geographical coordinates.",
+    data: [],
+  };
+}
 
   try {
   const params = new URLSearchParams({
@@ -47,7 +48,7 @@ if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
         .json()
         .catch(() => null);
           if (response.status === 429) {
-              return { error: true, code: "LIMIT_REACHED", message: "Attractions API request limit exceeded." , data: [], };
+              return { error: true, code: "LIMIT_REACHED", message: "Attractions API request limit exceeded. Please try again later." , data: [], };
           }
         return { 
         error: true, 
@@ -59,14 +60,26 @@ if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) {
 
   const places = await response.json();
 
+  if (!Array.isArray(places)) {
+  return {
+    error: true,
+    code: "INVALID_RESPONSE",
+    message: "The attractions service returned unexpected data.",
+    data: [],
+  };
+}
+
   const formattedPlaces = places
     .filter((place) => place.name?.trim())
     .map((place) => ({
       id: place.xid,
       name: place.name,
       categories: place.kinds
-        ? place.kinds.split(",")
-        : [],
+        ? place.kinds
+              .split(",")
+              .map((category) => category.trim())
+              .filter(Boolean)
+          : [],
       distance: place.dist ?? null,
       latitude: place.point?.lat ?? null,
       longitude: place.point?.lon ?? null,
