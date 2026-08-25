@@ -2,11 +2,11 @@ function SearchBar({ searchTerm, setSearchTerm, onSearch }) {
     return ( 
         <form className="search-form" onSubmit={onSearch}> 
                 <div className="input-wrapper">
-                    <span className="search-icon">🔍</span>
+                    <span className="search-icon" aria-hidden="true">🔍</span>
                     <input
-                        type="text"
+                        type="search"
                         className="search-input"
-                        placeholder="Search destination" 
+                        aria-label="Search destination" 
                         value={searchTerm} 
                         onChange={(event) => setSearchTerm(event.target.value)} 
                         />

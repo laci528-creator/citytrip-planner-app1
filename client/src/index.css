@@ -72,6 +72,7 @@ body {
 .hero-header {
   text-align: center;
   margin-bottom: 30px;
+  position: relative;
 }
 
 .hero-header h1 {
@@ -190,6 +191,24 @@ body {
   color: #666;
   font-size: 0.9rem;
   margin-left: 8px;
+}
+
+.suggestion-button {
+  width: 100%;
+  padding: 0.75rem 1rem;
+
+  text-align: left;
+  font: inherit;
+
+  background: white;
+  border: none;
+
+  cursor: pointer;
+}
+
+.suggestion-button:hover,
+.suggestion-button:focus-visible {
+  background-color: #f3f4f6;
 }
 
 .status-message {

@@ -59,6 +59,7 @@ async function handleCitySelect(selectedCity) {
   try {
     setIsLoading(true);
     setErrorMessage("");
+    setCity(null);
 
     const cityData = await searchCity(selectedCity);
 
@@ -97,7 +98,7 @@ async function handleCitySelect(selectedCity) {
                 <CityMap 
                     latitude={city.city.latitude} 
                     longitude={city.city.longitude} 
-                    cityName={city.city.name} 
+                    cityName={city.city.cityName} 
                     country={city.city.country} 
                     attractions={city.attraction} 
                   />

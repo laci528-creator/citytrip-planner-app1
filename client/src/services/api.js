@@ -1,10 +1,18 @@
-const BASE_URL = import.meta.env.VITE_API_URL;
+const BASE_URL = import.meta.env.VITE_API_URL || "http://localhost:5000/api";
 
 export async function fetchCitySuggestions(query) {
-  const response = await fetch(`${BASE_URL}/cities/search?query=${query}`);
-  
+    const params = new URLSearchParams({
+    query: query.trim(),
+  });
+
+  const response = await fetch(`${BASE_URL}/cities/search?${params.toString()}`);
+
   if (!response.ok) {
-    throw new Error("The city search service returned an error.");
+    const errorData = await response.json().catch(() => null);
+
+    throw new Error( 
+      errorData?.message || "The city search service returned an error."
+    );
   }
   
   return await response.json();
@@ -15,9 +23,9 @@ export async function searchCity(selectedCity) {
     lat: selectedCity.latitude,
     lon: selectedCity.longitude,
     name: selectedCity.name,
-    country: selectedCity.country,
-    countryCode: selectedCity.countryCode || "",
-    population: selectedCity.population || ""
+    country: selectedCity.country ?? "",
+    countryCode: selectedCity.countryCode ?? "",
+    population: selectedCity.population ?? "",
   });
 
   const response = await fetch(`${BASE_URL}/cities/details?${queryParams}`);
