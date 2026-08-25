@@ -39,7 +39,7 @@ try {
 
     const data = await fetchCitySuggestions(trimmedSearchTerm);
 
-    if (data.length === 0) {
+    if (!Array.isArray(data) || data.length === 0) {
       setErrorMessage("No cities found.");
     } else {
       setSuggestions(data);
@@ -73,7 +73,7 @@ async function handleCitySelect(selectedCity) {
 
   return (
     <main className="main-container">
-      <div className="hero-header" style={{ position: "relative" }}>
+      <div className="hero-header" >
       <h1>CityTrip Planner</h1>
       <p>Plan your next urban adventure.</p>
       

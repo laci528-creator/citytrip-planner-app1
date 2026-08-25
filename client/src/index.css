@@ -315,6 +315,23 @@ body {
   padding: 15px;
   border-radius: 8px;
 }
+.city-result-card {
+  padding: 0;
+  overflow: hidden;
+}
+
+.city-details {
+  padding: 24px;
+}
+
+.info-heading {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.error-box-small {
+  color: #991b1b;
+}
 
 @media (min-width: 600px) {
   .city-info-grid {

@@ -4,12 +4,12 @@ import defaultCityImage from "../assets/pexels-city-in-fog-andreas-geissler.jpg"
 
 function CitySection({ city, image, currency }) {
   return (
-    <section className="result-card" style={{ padding: "0", overflow: "hidden"}}>
+    <section className="result-card city-result-card">
       {image && (
         <div className="top-image-container">
           {image.error ? (
               <div className="error-box">{image.message}</div>
-            ) : image.code === "DONT HAVE PHOTO" ? (
+            ) : image.code === "NO_IMAGE" ? (
               <>
           <p className="placeholder-text">{image.message}</p>
           <img 
@@ -22,7 +22,7 @@ function CitySection({ city, image, currency }) {
           <>
           <img
             src={image.imageUrl}
-            alt={image.altDescription || `Photo of ${city.name}`}
+            alt={image.altDescription || `Photo of ${city.cityName}`}
             className="city-image"
           />
           <div className="photographer-name">
@@ -50,7 +50,7 @@ function CitySection({ city, image, currency }) {
         </div>
       )}
 
-      <div style={{ padding: "24px" }}>
+      <div className="city-details">
         <h2>
           {city.cityName}, {city.country}
         </h2>
@@ -58,7 +58,7 @@ function CitySection({ city, image, currency }) {
         <div className="city-info-grid">
 
 <div className="info-column">
-  <h4 style={{ marginBottom: "10px", marginTop: "0" }}>Location Info</h4>
+  <h4 className="info-heading">Location Info</h4>
         {city.population != null && (
           <p>
             <strong>Population:</strong> {city.population.toLocaleString()}
@@ -75,9 +75,9 @@ function CitySection({ city, image, currency }) {
 </div>
         {currency && (
             <div className="info-column">
-              <h4 style={{ marginBottom: "10px", marginTop: "0" }}>Local Currency</h4>
+              <h4 className="info-heading">Local Currency</h4>
               {currency.error ? (
-                <div className="error-box-small" style={{ color: "#991b1b" }}>
+                <div className="error-box-small">
                   {currency.message}
                 </div>
               ) : (
