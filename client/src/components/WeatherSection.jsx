@@ -1,6 +1,17 @@
 import { formatDate } from "../utils/formatters";
 
 function WeatherSection({ weather }) {
+if (!weather) {
+  return (
+    <section className="result-card">
+      <h2>Current weather</h2>
+      <div className="error-box">
+        Weather data is unavailable.
+      </div>
+    </section>
+  );
+}
+
 if (weather?.error) {
     return (
       <section className="result-card">
@@ -13,17 +24,18 @@ if (weather?.error) {
   }
 
   return (
+
     <section className="result-card">
       <h2>Current weather</h2>
 
           <div className="forecast-grid">
             {weather?.current && (
-              <article className="forecast-card" key={weather.current.date}>
+              <article className="forecast-card">
                 <h4>Right Now</h4>
                 <img 
                   src={getWeatherIconUrl(weather.current.weatherCode)} 
                   alt={getWeatherDescription(weather.current.weatherCode)}
-                  style={{ width: "80px", height: "80px", margin: "8px 0" }} 
+                  className="weather-icon"
                 />
                 <p>
                   {getWeatherDescription(weather.current.weatherCode)}
@@ -50,7 +62,7 @@ if (weather?.error) {
                 <img 
                   src={getWeatherIconUrl(day.weatherCode)} 
                   alt={getWeatherDescription(day.weatherCode)}
-                  style={{ width: "80px", height: "80px", margin: "8px 0" }} 
+                  className="weather-icon"
                 />
 
                 <p>
@@ -66,7 +78,10 @@ if (weather?.error) {
                 </p>
 
                 <p>
-                  Rain: {day.precipitationProbability ?? 0}%
+                  Rain:{" "}
+                  {day.precipitationProbability != null
+                    ? `${day.precipitationProbability}%`
+                    : "N/A"}
                 </p>
               </article>
             ))}

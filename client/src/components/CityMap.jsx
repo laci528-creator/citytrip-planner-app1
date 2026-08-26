@@ -21,7 +21,13 @@ L.Icon.Default.mergeOptions({
 export default function CityMap({ latitude, longitude, cityName, country, attractions }) {
   const position = [latitude, longitude];
 
-  const attrArray= attractions.data;
+const attrArray = Array.isArray(attractions?.data)
+  ? attractions.data.filter(
+      (attraction) =>
+        Number.isFinite(attraction.latitude) &&
+        Number.isFinite(attraction.longitude)
+    )
+  : [];
 
   return (
     <div className="map-panel">
@@ -30,7 +36,7 @@ export default function CityMap({ latitude, longitude, cityName, country, attrac
         center={position}
         zoom={12}
         scrollWheelZoom={false}
-        style={{ height: "100%", width: "100%" }}
+        className="city-map"
       >
         <TileLayer
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

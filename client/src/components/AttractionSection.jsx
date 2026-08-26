@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { formatDistance, formatCategory } from "../utils/formatters";
 
+const ATTRACTIONS_PER_PAGE = 6;
+
 
 function AttractionSection({ attraction }) {
-  const [visibleAttractions, setVisibleAttractions] = useState(6);
+  const [visibleAttractions, setVisibleAttractions] = useState(ATTRACTIONS_PER_PAGE);
 
 if (attraction?.error) {
     return (
@@ -19,8 +21,13 @@ if (attraction?.error) {
   const places = attraction?.data;
 
 if (!Array.isArray(places) || places.length === 0) {
-    return null;
-  }
+    return (
+    <section className="result-card">
+      <h2>Nearby attractions</h2>
+      <p>No nearby attractions were found.</p>
+    </section>
+  );
+}
 
 return (
     <section className="result-card">
