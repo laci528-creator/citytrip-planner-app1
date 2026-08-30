@@ -4,7 +4,7 @@ function About() {
       <section className="result-card about-page">
         <h1>About CityTrip Planner</h1>
 
-        <section>
+        <section lang="en">
           <h2>English</h2>
 
           <p>
@@ -61,9 +61,20 @@ function About() {
 
           <p>
             The project demonstrates how geocoding, weather,
-            currency, image, attraction, and map data can be
-            processed by a Node.js and Express backend and displayed
-            in a responsive React user interface.
+            currency, image, and attraction data can be retrieved
+            and combined by a Node.js and Express backend, while
+            React Leaflet and OpenStreetMap are used to display
+            the selected destination and nearby attractions on an
+            interactive map.
+          </p>
+          <h3>Data sources</h3>
+
+          <p>
+            The application integrates Open-Meteo for geocoding
+            and weather data, OpenTripMap for nearby attractions,
+            Unsplash for destination images, Frankfurter for
+            currency exchange rates, and OpenStreetMap with
+            React Leaflet for the interactive map.
           </p>
         </section>
 
@@ -131,10 +142,21 @@ function About() {
 
           <p>
             Das Projekt zeigt, wie Geocoding-, Wetter-, Währungs-,
-            Bild-, Sehenswürdigkeits- und Kartendaten durch ein
-            Node.js- und Express-Backend verarbeitet und in einer
-            responsiven React-Benutzeroberfläche dargestellt werden
-            können.
+            Bild- und Sehenswürdigkeitsdaten durch ein Node.js-
+            und Express-Backend abgerufen und zusammengeführt
+            werden. React Leaflet und OpenStreetMap werden
+            verwendet, um das ausgewählte Reiseziel und
+            Sehenswürdigkeiten in der Nähe auf einer interaktiven
+            Karte darzustellen.
+          </p>
+          <h3>Datenquellen</h3>
+
+          <p>
+            Die Anwendung verwendet Open-Meteo für Geocoding-
+            und Wetterdaten, OpenTripMap für Sehenswürdigkeiten
+            in der Nähe, Unsplash für Bilder der Reiseziele,
+            Frankfurter für Wechselkurse sowie OpenStreetMap
+            und React Leaflet für die interaktive Karte.
           </p>
         </section>
       </section>

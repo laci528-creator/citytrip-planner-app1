@@ -122,7 +122,7 @@ function getWeatherIconUrl(code) {
     1: "cloudy-day-1.svg",         // Mainly clear
     2: "cloudy-day-2.svg",         // Partly cloudy
     3: "cloudy.svg",               // Overcast
-    45: "cloudy.svg",              // Fog (amCharts-ban nincs külön köd, a felhős tökéletes)
+    45: "cloudy.svg",              // Fog
     48: "cloudy.svg",              // Rime fog
     51: "rainy-4.svg",             // Light drizzle
     53: "rainy-5.svg",             // Moderate drizzle
@@ -143,8 +143,6 @@ function getWeatherIconUrl(code) {
   
   return `/icons/weather/${fileName}`;
 }
-
-
 
 
 export default WeatherSection;

@@ -7,7 +7,7 @@ function Navigation() {
         <NavLink
           to="/"
           className={({ isActive }) =>
-            isActive ? "nav-link active" : "nav-link"
+            `nav-link${isActive ? " active" : ""}`
           }
         >
           Home
@@ -16,7 +16,7 @@ function Navigation() {
         <NavLink
           to="/about"
           className={({ isActive }) =>
-            isActive ? "nav-link active" : "nav-link"
+            `nav-link${isActive ? " active" : ""}`
           }
         >
           About
