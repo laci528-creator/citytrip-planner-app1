@@ -15,6 +15,21 @@ CityTrip Planner helps users prepare for short city breaks by combining informat
 
 Users can search for a city, choose from several matching locations, and view weather information, local currency exchange rates, nearby attractions, destination images, and an interactive map.
 
+
+### Screenshots
+
+#### Home and search
+
+<img src="./screenshots/home.png" alt="CityTrip Planner home page" width="800">
+
+#### Destination details
+
+<img src="./screenshots/destination-details.png" alt="CityTrip Planner destination-details" width="800">
+
+#### Weather and nearby attractions
+
+<img src="./screenshots/weather-attractions.png" alt="CityTrip Planner weather-attractions" width="800">
+
 ### Features
 
 - Search for cities
