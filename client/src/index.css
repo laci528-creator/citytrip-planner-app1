@@ -777,3 +777,28 @@ body {
 .site-footer p {
   margin: 0;
 }
+
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  padding: 2rem 1rem;
+  gap: 0.5rem;
+}
+
+.loading-animation {
+  width: 350px;
+  max-width: 70vw;
+  height: auto;
+}
+
+.loading-container p {
+  margin: 0;
+
+  font-size: 1rem;
+  font-weight: 500;
+  text-align: center;
+}

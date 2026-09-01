@@ -6,6 +6,7 @@ import CitySection from "../components/CitySection";
 import CityMap from "../components/CityMap";
 import WeatherSection from "../components/WeatherSection";
 import AttractionSection from "../components/AttractionSection";
+import Loading from "../components/Loading";
 
 import { 
   searchCity, 
@@ -19,9 +20,11 @@ function Home() {
   const [errorMessage, setErrorMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [suggestions, setSuggestions] = useState([]);
+  const [loadingCityName, setLoadingCityName] = useState("");
 
 
 async function handleSearch(event) {
+    setLoadingCityName("");
     event.preventDefault();
 
     const trimmedSearchTerm = searchTerm.trim();
@@ -54,7 +57,8 @@ try {
 
 async function handleCitySelect(selectedCity) {
   setSuggestions([]);
-  setSearchTerm(selectedCity.name); 
+  setSearchTerm(selectedCity.name);
+  setLoadingCityName(selectedCity.name);
 
   try {
     setIsLoading(true);
@@ -68,6 +72,7 @@ async function handleCitySelect(selectedCity) {
     setErrorMessage(error.message);
   } finally {
     setIsLoading(false);
+    setLoadingCityName("");
   }
 }
 
@@ -88,7 +93,7 @@ async function handleCitySelect(selectedCity) {
       />
       </div>
 
-      {isLoading && <p className="status-message loading">Searching...</p>}
+      {isLoading && <Loading cityName={loadingCityName} />}
 
       {errorMessage && <p className="status-message error">{errorMessage}</p>}
 
