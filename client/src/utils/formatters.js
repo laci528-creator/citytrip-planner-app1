@@ -1,7 +1,12 @@
 export function formatDistance(distance) {
+  if (!Number.isFinite(distance)) {
+    return "N/A";
+  }
+
   if (distance >= 1000) {
     return `${(distance / 1000).toFixed(1)} km`;
   }
+
   return `${Math.round(distance)} m`;
 }
 
@@ -17,10 +22,15 @@ export function formatDate(dateString) {
     weekday: "short",
     day: "2-digit",
     month: "short",
+    timeZone: "UTC",
   }).format(new Date(dateString));
 }
 
 export function formatExchangeRate(rate) {
+  if (!Number.isFinite(rate)) {
+    return "N/A";
+  }
+
   return new Intl.NumberFormat("en-GB", {
     minimumFractionDigits: 2,
     maximumFractionDigits: 4,
