@@ -56,6 +56,13 @@
 
 /* Base */
 
+#root {
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
 body {
   min-height: 100vh;
   margin: 0;
@@ -135,8 +142,10 @@ body {
 
 .main-container {
   max-width: 1400px;
+  width: 100%;
   margin: 0 auto;
   padding: 20px;
+  flex: 1;
 }
 
 @media (max-width: 600px) {
@@ -754,4 +763,17 @@ body {
 .show-more-button:focus-visible {
   outline: 3px solid var(--primary-shadow-strong);
   outline-offset: 2px;
+}
+
+.site-footer {
+  margin-top: auto;
+  padding: 14px 20px;
+  text-align: center;
+  color: var(--text-muted);
+  border-top: 1px solid var(--border-color);
+  font-size: 0.85rem;
+}
+
+.site-footer p {
+  margin: 0;
 }
