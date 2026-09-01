@@ -23,7 +23,7 @@ Users can search for a city, choose from several matching locations, and view we
 - Current weather data
 - Seven-day weather forecast
 - Local currency and exchange rate
-- Destination image
+- Destination images
 - Nearby attractions
 - Interactive map with city and attraction markers
 - Progressive display of attractions with a **Show more** button
@@ -31,6 +31,7 @@ Users can search for a city, choose from several matching locations, and view we
 - Separate error handling for external APIs
 - Responsive user interface
 - About page in English and German
+- Custom 404 page
 
 ### Technologies
 
@@ -52,6 +53,7 @@ Users can search for a city, choose from several matching locations, and view we
 - REST API
 - Environment variables
 - Asynchronous API requests
+- CORS configuration
 
 ### External Services
 
@@ -91,7 +93,7 @@ Es kann nach einer Stadt gesucht und zwischen mehreren passenden Treffern gewäh
 - Aktuelle Wetterdaten
 - Sieben-Tage-Wettervorhersage
 - Lokale Währung und Wechselkurs
-- Bild des Reiseziels
+- Bilder der Reiseziele
 - Sehenswürdigkeiten in der Nähe
 - Interaktive Karte mit Stadt- und Sehenswürdigkeitsmarkern
 - Schrittweise Anzeige weiterer Sehenswürdigkeiten mit einer **Show more**-Schaltfläche
@@ -99,6 +101,7 @@ Es kann nach einer Stadt gesucht und zwischen mehreren passenden Treffern gewäh
 - Separate Behandlung von Fehlern externer APIs
 - Responsive Benutzeroberfläche
 - About-Seite auf Englisch und Deutsch
+- Eigene 404-Seite
 
 ### Verwendete Technologien
 
@@ -120,6 +123,7 @@ Es kann nach einer Stadt gesucht und zwischen mehreren passenden Treffern gewäh
 - REST API
 - Umgebungsvariablen
 - Asynchrone API-Anfragen
+- CORS-Konfiguration
 
 ### Externe Dienste
 
@@ -147,40 +151,67 @@ Die Anwendung behandelt diese Fehler getrennt, sodass die übrigen Informationen
 
 Clone the repository / Repository klonen:
 
+```bash
 git clone https://github.com/laci528-creator/citytrip-planner-app1.git
 cd citytrip-planner-app1
+```
 
 Install the dependencies / Abhängigkeiten installieren:
 
-
+```bash
 npm install
 npm install --prefix client
 npm install --prefix server
+```
 
 Create the frontend environment file:
 
+```text
 client/.env
+```
 
+```env
 VITE_API_URL=http://localhost:5000/api
+```
 
 Create the backend environment file:
 
+```text
 server/.env
+```
 
+```env
 PORT=5000
-OPENTRIPMAP_API_KEY=your_api_key
-UNSPLASH_ACCESS_KEY=your_api_key
+CLIENT_URL=http://localhost:5173
+
+OPENTRIPMAP_API_KEY=your_opentripmap_api_key
+UNSPLASH_ACCESS_KEY=your_unsplash_access_key
+```
+
+Example environment files are included in the repository as `.env.example` files.
 
 Start the frontend and backend development servers:
 
+```bash
 npm run dev
+```
+
+---
+
+## Deployment
+
+- Frontend: Vercel
+- Backend: Render
+
+The Vercel configuration includes an SPA rewrite so React Router routes can also be opened and refreshed directly.
 
 ---
 
 ## Live Demo
 
-Frontend: [https://citytrip-planner-green.vercel.app/]
-Backend API: [https://citytrip-planner-app1.onrender.com]
+Frontend: https://citytrip-planner-green.vercel.app/
+
+Backend API: https://citytrip-planner-app1.onrender.com
 
 ---
 
