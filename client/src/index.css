@@ -764,7 +764,7 @@ body {
   outline: 3px solid var(--primary-shadow-strong);
   outline-offset: 2px;
 }
-
+/*
 .site-footer {
   margin-top: auto;
   padding: 14px 20px;
@@ -777,6 +777,51 @@ body {
 .site-footer p {
   margin: 0;
 }
+*/
+.footer {
+  padding: 16px 20px;
+  text-align: center;
+
+  background: rgba(230, 244, 255, 0.75);
+  border-top: 1px solid rgba(120, 180, 220, 0.25);
+
+  color: #4f6475;
+  font-size: 0.9rem;
+}
+
+.footer-text {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.portfolio-link {
+  display: inline-block;
+  margin-top: 6px;
+
+  color: #2f80ed;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.portfolio-link:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 600px) {
+  .footer-text {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .footer-separator {
+    display: none;
+  }
+}
+
+
+
 
 .loading-container {
   display: flex;
