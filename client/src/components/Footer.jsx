@@ -8,7 +8,7 @@ function Footer() {
   </p>
 
   <a
-    href="https://hellaszabo94-prog.github.io/portfolio_website/"
+    href="https://laci528-creator.github.io/meine_lebenslauf/"
     className="portfolio-link"
   >
     ↗ Back to Portfolio Website
