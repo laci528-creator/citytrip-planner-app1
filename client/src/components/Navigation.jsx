@@ -1,8 +1,17 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
 
 function Navigation() {
   return (
     <header className="site-header">
+      <Link to="/" className="nav-brand">
+        <img
+          src="/favicon.png"
+          alt=""
+          className="nav-logo"
+        />
+        <span>CityTrip Planner</span>
+      </Link>
+
       <nav className="navigation" aria-label="Main navigation">
         <NavLink
           to="/"
