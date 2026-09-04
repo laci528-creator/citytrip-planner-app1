@@ -764,25 +764,13 @@ body {
   outline: 3px solid var(--primary-shadow-strong);
   outline-offset: 2px;
 }
-/*
-.site-footer {
-  margin-top: auto;
-  padding: 14px 20px;
-  text-align: center;
-  color: var(--text-muted);
-  border-top: 1px solid var(--border-color);
-  font-size: 0.85rem;
-}
 
-.site-footer p {
-  margin: 0;
-}
-*/
+
 .footer {
   padding: 16px 20px;
   text-align: center;
 
-  background: rgba(230, 244, 255, 0.75);
+  background: rgba(230, 244, 255, 0.5);
   border-top: 1px solid rgba(120, 180, 220, 0.25);
 
   color: #4f6475;
